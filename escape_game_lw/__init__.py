@@ -1,1 +1,1 @@
-from escape_game_lw.escape_game_lw.main import EscapeGamePinaPython
+from escape_game_lw.main import EscapeGamePinaPython
