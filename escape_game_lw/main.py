@@ -1,50 +1,3 @@
-"""
-Chapter 0: 
-    init_game()
-
-Chapter 1:
-    check_info(pina_python)
-
-Chapter 2:
-    pin_codes 
-    check_way_to_office(pin_elevator, pin_3rd_floor, pin_office)
-    
-Chapter 3:
-    check_login_computer(password)
-    
-Chapter 4:
-    get_login_logout_times()
-    get_browser_history()
-    check_website_name(url)
-    get_website_text(url)
-    check_telephone_numer(number)
-    
-Chapter 5:
-    check_coordinates_text
-
-Chapter 6:
-    check_distance(distance)
-    check_location_message(decrypted_message)
-
-Chapter 7: 
-    open_emergency_text(pwd)
-    check_find_prototyp(colleague, code_word)
-
-Chapter 8:
-    get_map(level, positions=None)
-    check_strongest_signal(level, strongest_signal)
-
-Chapter 9:
-    get_list_devices()
-    try_add_device(id, os_type, os_version)
-    check_device_added()
-    
----
-self.completed is an set, where the number of each chapter is
-stored if the chapter is self.completed
-
-"""
-
 
 from datetime import datetime, timedelta, date
 import numpy as np
@@ -58,9 +11,12 @@ class EscapeGamePinaPython:
     # ---------------
     def __init__(self):
         """ Init game with current time"""
-        self.completed = (0)
+        self.completed = [0]
         self.start_time = datetime.now()
         
+        # chapter 8
+        self.map = []
+        self.level = 1
         # chapter 9
         self.__command_device = []
         self.__id_list = {'80957:015430:3911' : {'os_type' : 'windows', 'os_version' : '10'}, 
@@ -69,7 +25,7 @@ class EscapeGamePinaPython:
             '93010:310:5183473' : {'os_type' : 'windows', 'os_version' : '10'}, 
             '8299:737631:16566' : {'os_type' : 'ios', 'os_version' : '15'}, 
             '7010651:3338:7262' : {'os_type' : 'ios', 'os_version' : '13'}
-    }
+        }
 
         print("Game started!")
     
@@ -87,10 +43,10 @@ class EscapeGamePinaPython:
             print("Please start the game in the previous cell")
             return False
         
-        birthdate = datetime.date(1985, 5, 15)
+        birthdate = date(1985, 5, 15)
 
         # Calculate the age using timedelta
-        today = datetime.date.today()
+        today = date.today()
         age = today - birthdate
         age_in_years = age.days // 365
 
@@ -203,7 +159,7 @@ class EscapeGamePinaPython:
 
         random.seed(42)
 
-        today = datetime.date.today()
+        today = date.today()
         day =  today - timedelta(days=today.weekday() + 1) - timedelta(weeks=1)
 
         # day sollte ein datetime-Objekt sein, das den Tag repräsentiert, für den die Zeiten generiert werden sollen
@@ -228,10 +184,10 @@ class EscapeGamePinaPython:
         online = True
 
         # started day at 7:58
-        login_times.append(datetime.datetime(year=day.year, month=day.month, day=day.day, hour=7, minute=58))
+        login_times.append(datetime(year=day.year, month=day.month, day=day.day, hour=7, minute=58))
 
         for hour in online_code:
-            hour_time = datetime.datetime(year=day.year, month=day.month, day=day.day, hour=hour, minute=0)
+            hour_time = datetime(year=day.year, month=day.month, day=day.day, hour=hour, minute=0)
             for i, active in enumerate(online_code[hour]):
                 if not online and active == 1: # log in
                     login_time = hour_time + timedelta(minutes=i*10) + timedelta(minutes=random.randint(-3, 3))
@@ -250,7 +206,7 @@ class EscapeGamePinaPython:
         random.seed(42)
 
         today = date.today()
-        tuesday =  datetime.datetime(year=today.year, month=today.month, day=today.day, hour=0, minute=0) - timedelta(days=today.weekday() + 1) - timedelta(weeks=1)
+        tuesday =  datetime(year=today.year, month=today.month, day=today.day, hour=0, minute=0) - timedelta(days=today.weekday() + 1) - timedelta(weeks=1)
             
         websites = ["arxiv.org/abs/", "youtube.com/watch?v=", "reddit.com/r/neurallace/comments/", "linkedin.com/feed/", "arxiv.org/abs/", "arxiv.org/abs/", "arxiv.org/abs/"]
 
@@ -264,7 +220,7 @@ class EscapeGamePinaPython:
         browser_history  = [site for site in browser_history if not(site['time'].hour in [16] and site['time'].minute in (52,53,54,55))]
 
         # add suspious website
-        browser_history.append({'time': datetime.datetime(tuesday.year, tuesday.month, tuesday.day, 16, 53),
+        browser_history.append({'time': datetime(tuesday.year, tuesday.month, tuesday.day, 16, 53),
         'website': 'brainlink.de/home'})
 
         # sort entries
@@ -429,7 +385,7 @@ class EscapeGamePinaPython:
         """checks if the message of the location is correct"""
 
         if 5 not in self.completed:
-            print("You need to get the location frist (chaper 5).")
+            print("You need to get the location first (chaper 5).")
             return False
         
         if msg == "Help. Use prototype. See laptop: emergency.txt - PP":
@@ -442,48 +398,54 @@ class EscapeGamePinaPython:
 
     def open_emergency_txt(self, pwd):
         """ if the password is correct, returns the content of the file"""
-        global pina_python
         
-        if pwd == pina_python['research_topics'][0] + str(pina_python['age']):
-            print("""
-                Executive Summary: Mind-Controlled Machine Prototype
-                -------------------------------------------------------
-                The brain-machine-interface prototype has been designed with a dual-component approach, 
-                addressing safety concerns. It comprises a chip with an electromagnetic brain interface, securely 
-                attached to the scalp, and a command device acting as an intermediary between the chip and various devices.
+        # Calculate the age using timedelta
+        age = date.today() - date(1985, 5, 15)
+        age_in_years = age.days // 365
+        
+        try:            
+            if pwd == "neuroscience" + str(age_in_years):
+                print("""
+                    Executive Summary: Mind-Controlled Machine Prototype
+                    -------------------------------------------------------
+                    The brain-machine-interface prototype has been designed with a dual-component approach, 
+                    addressing safety concerns. It comprises a chip with an electromagnetic brain interface, securely 
+                    attached to the scalp, and a command device acting as an intermediary between the chip and various devices.
 
-                The chip enables seamless connection to different machines in the vicinity, establishing a direct link 
-                to the thought area of the brain through its electromagnetic brain interface.
+                    The chip enables seamless connection to different machines in the vicinity, establishing a direct link 
+                    to the thought area of the brain through its electromagnetic brain interface.
 
-                The command device serves as an additional layer of security, requiring users to manually add devices 
-                before the chip can communicate with them. It acts as a mediator between the brain interface chip and 
-                the diverse operating systems of smartphones, computers, and smart home devices.
+                    The command device serves as an additional layer of security, requiring users to manually add devices 
+                    before the chip can communicate with them. It acts as a mediator between the brain interface chip and 
+                    the diverse operating systems of smartphones, computers, and smart home devices.
 
-                The command device is capable of identifying new and known devices (usually weak signals) and the
-                associated brain interface chips. The associated brain interface chip emmits a  strong signal strength, 
-                so it can bet detected and communicate in an distance of up to 500m.
+                    The command device is capable of identifying new and known devices (usually weak signals) and the
+                    associated brain interface chips. The associated brain interface chip emmits a  strong signal strength, 
+                    so it can bet detected and communicate in an distance of up to 500m.
 
-                The command device only transmits the communication between device and brain but a remote transmission of 
-                maintenance information to the brain interface chip is possible. 
+                    The command device only transmits the communication between device and brain but a remote transmission of 
+                    maintenance information to the brain interface chip is possible. 
 
-                This innovative prototype aims to revolutionize human-machine interaction through secure 
-                and efficient neural control.
+                    This innovative prototype aims to revolutionize human-machine interaction through secure 
+                    and efficient neural control.
 
-                In Case of Emergency
-                ----------------------
-                As the prototype is highly coveted by many people, Dr. Python carries the scalp chip hidden through everyday
-                life. The command device is in the hands of Dr. Mörpf, who knows how to use it. He will always deny the 
-                existence of the two prototype parts unless
+                    In Case of Emergency
+                    ----------------------
+                    As the prototype is highly coveted by many people, Dr. Python carries the scalp chip hidden through everyday
+                    life. The command device is in the hands of Dr. Mörpf, who knows how to use it. He will always deny the 
+                    existence of the two prototype parts unless
 
-                a) there is an extraordinarily dangerous situation
-                b) the intended use does not reduce the well-being of the world
-                c) he is told the code word "beer garden summer"
-            """
-            )
-            return True
-        else:
+                    a) there is an extraordinarily dangerous situation
+                    b) the intended use does not reduce the well-being of the world
+                    c) he is told the code word "beer garden summer"
+                """
+                )
+                return True
+            else:
+                return False
+        except:
             return False
-
+        
     def check_find_prototype(self, colleague, code_word):
         """check if you extracted the right info of file"""
 
@@ -493,10 +455,12 @@ class EscapeGamePinaPython:
 
         if colleague.lower() in ["dr. mörpf","moerpf","dr. moerpf","mörpf"] and code_word.lower() == "beer garden summer":
             self.completed.append(7)
-            print("""Dr. Mörpf gives you the command device after telling him the code word and explaining
+            print("""
+            Dr. Mörpf gives you the command device after telling him the code word and explaining
             the situation. He joins you to search for Dr. Python with the help of the device.
             
-            As mentioned in the executive summary, the emmited signal of the brain interface chip """)
+            As mentioned in the executive summary, the emmited signal of the brain interface chip
+            can be detected with the command device.""")
             return True
         
     # Chapter 8
@@ -527,7 +491,10 @@ class EscapeGamePinaPython:
 
         # determine size of map
         sizes = {1 : 500, 2 : 400, 3 : 300, 4 : 100}
-        map_size = sizes[level]
+        try:
+            map_size = sizes[level]
+        except:
+            return []
         
         matrix = np.random.randint(-2, 8, size=(map_size , map_size ))
         x, y = np.random.randint(5, map_size-5, size=2)
@@ -543,6 +510,9 @@ class EscapeGamePinaPython:
             matrix[x, y+1] = max_signal
         matrix[x, y] = max_signal
         
+        self.map = matrix
+        self.level = level
+        
         return matrix.tolist()
 
     def check_strongest_signal(self, x : int, y : int):
@@ -551,12 +521,15 @@ class EscapeGamePinaPython:
         if 7 not in self.completed:
             print("Please get the prototype first (chapter 7)")
             return False
-            
-        if x == 44 and y == 30:
+        
+        strongest_signal = self.__solve_map(self.map)
+        
+        if x == strongest_signal[0][0] and y == strongest_signal[0][1] and self.level >= 4:
             self.completed.append(8)
+            print("You found the location of Dr. Pina Python!")
             return True
         else:
-            print("Please search again. Did you enter the correct level?")
+            print("Please search again")
             return False
 
 
@@ -564,7 +537,7 @@ class EscapeGamePinaPython:
     # ------------
     def get_list_devices(self):
         """returns the ids of the devices in the nearby area"""
-        return self.__id_list.keys()
+        return list(self.__id_list.keys())
 
 
     def try_add_device(self, id :str, os_type : str, os_version : str):
@@ -593,7 +566,7 @@ class EscapeGamePinaPython:
             print("Wrong id")
         
         # sleep time for forcing clever programming
-        time.sleep(15)
+        time.sleep(30)
         
         return (type_os_bool, version_os_bool, connected_bool)
 
@@ -606,7 +579,7 @@ class EscapeGamePinaPython:
 
         if '4657871:3315:0983' in self.__command_device and '8299:737631:16566' in self.__command_device and '7010651:3338:7262' in self.__command_device: 
             self.completed.append(9)
-            print("Dr. Pina Python confirms the connection to the kidnappers smartphone and she creats a distraction...")
+            print("Dr. Pina Python confirms the connection to the kidnappers smartphone. She starts to a successful distraction...")
             return True
         
     # Chapter 10
@@ -618,10 +591,10 @@ class EscapeGamePinaPython:
 
         if 9 in self.completed:
             print(f"""
-            After the kidnapper has fled in a hurry and is already expected by the police, the hiding place is 
-            left unguarded. Thanks to you, the rescue party can approach.
+            After the kidnapper has left the building in a hurry and he is already expected by the police.
+            The hiding place is left unguarded. Thanks to you, the rescue party can approach.
 
-            The door to the room where the kidnapped researcher was held captive slowly opens. The rescue workers 
+            The door to the room where the Dr. Pina Python was held captive slowly opens. The rescue workers 
             enter the room and search for the researcher. After a few minutes of searching, they finally find her, 
             bound and gagged, but unharmed.
 
@@ -636,3 +609,5 @@ class EscapeGamePinaPython:
             ...
 
             You solved the case. Congratulation! You finished in {duration_min} min.""")
+        else:
+            print("Try to solve the problems first")

@@ -2,3 +2,4 @@ __pychache__
 build/
 dist/
 escape_game_lw/dist/
+escape_game_lw.egg-info/PKG-INFO
