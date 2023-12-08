@@ -58,8 +58,8 @@ class EscapeGamePinaPython():
     # ---------------
     def __init__(self):
         """ Init game with current time"""
-        self.self.completed = (0)
-        self.self.start_time = datetime.now()
+        self.completed = (0)
+        self.start_time = datetime.now()
         
         # chapter 9
         self.__command_device = []
