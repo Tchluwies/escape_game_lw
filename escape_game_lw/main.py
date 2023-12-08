@@ -53,7 +53,7 @@ import string
 import time
 
 
-class EscapeGamePinaPython():
+class EscapeGamePinaPython:
     # Chapter 0
     # ---------------
     def __init__(self):
