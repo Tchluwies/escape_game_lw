@@ -51,7 +51,7 @@ class EscapeGamePinaPython:
         age_in_years = age.days // 365
 
         if list(pina_python.keys()) == ['name','age','email','location','research_topics'] and pina_python['age'] == age_in_years:
-            print("You identified the key information")
+            print("You identified the key information.")
             self.completed.append(1)
             return True
         
@@ -281,7 +281,7 @@ class EscapeGamePinaPython:
             print("You need to be logged in first (chaper 3).")
             return False
 
-        if number == "":
+        if str(number) == "004915757845993" or str(number) == "4915757845993" or str(number) == "004915757845993.":
             self.completed.append(4)
             return True
         else:
@@ -490,7 +490,7 @@ class EscapeGamePinaPython:
         np.random.seed(164)
 
         # determine size of map
-        sizes = {1 : 500, 2 : 400, 3 : 300, 4 : 100}
+        sizes = {1 : 500, 2 : 400, 3 : 300}
         try:
             map_size = sizes[level]
         except:
@@ -524,7 +524,7 @@ class EscapeGamePinaPython:
         
         strongest_signal = self.__solve_map(self.map)
         
-        if x == strongest_signal[0][0] and y == strongest_signal[0][1] and self.level >= 4:
+        if x == strongest_signal[0][0] and y == strongest_signal[0][1] and self.level >= 3:
             self.completed.append(8)
             print("You found the location of Dr. Pina Python!")
             return True
@@ -579,7 +579,7 @@ class EscapeGamePinaPython:
 
         if '4657871:3315:0983' in self.__command_device and '8299:737631:16566' in self.__command_device and '7010651:3338:7262' in self.__command_device: 
             self.completed.append(9)
-            print("Dr. Pina Python confirms the connection to the kidnappers smartphone. She starts to a successful distraction...")
+            print("Dr. Pina Python confirms the connection to the kidnappers smartphone. She starts a successful distraction...")
             return True
         
     # Chapter 10
