@@ -1,4 +1,3 @@
-
 from datetime import datetime, timedelta, date
 import numpy as np
 import random
@@ -9,9 +8,13 @@ import time
 class EscapeGamePinaPython:
     # Chapter 0
     # ---------------
-    def __init__(self):
+    def __init__(self, strict_mode=False):
         """ Init game with current time"""
-        self.completed = [0]
+        
+        if strict_mode:
+            self.completed = [0]
+        else:
+            self.completed = list(range(10))
         self.start_time = datetime.now()
         
         # chapter 8
@@ -104,7 +107,7 @@ class EscapeGamePinaPython:
         """
         
         if 1 not in self.completed:
-            print("Did you gather the information frist?")
+            print("Did you gather the information frist? (chapter 1) ")
             return False
         
         if pin_elevator == "003301":
@@ -160,7 +163,7 @@ class EscapeGamePinaPython:
         random.seed(42)
 
         today = date.today()
-        day =  today - timedelta(days=today.weekday() + 1) - timedelta(weeks=1)
+        day =  today - timedelta(days=(today.weekday() - 1 + 7) % 7)
 
         # day sollte ein datetime-Objekt sein, das den Tag repräsentiert, für den die Zeiten generiert werden sollen
         login_times = []
@@ -611,3 +614,4 @@ class EscapeGamePinaPython:
             You solved the case. Congratulation! You finished in {duration_min} min.""")
         else:
             print("Try to solve the problems first")
+
